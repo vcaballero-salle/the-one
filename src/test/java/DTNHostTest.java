@@ -1,22 +1,14 @@
-import core.Coord;
-import core.DTNHost;
-import core.MessageListener;
-import core.MovementListener;
-import core.NetworkInterface;
-import core.Settings;
+import core.*;
+import junit.framework.TestCase;
 import movement.MovementModel;
 import movement.Path;
-
-import org.junit.Test;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
+import org.junit.Test;
 import routing.MessageRouter;
 import routing.PassiveRouter;
 
 import java.util.ArrayList;
-
-import junit.framework.TestCase;
 
 /**
  * @author teemuk
@@ -28,13 +20,13 @@ public class DTNHostTest extends TestCase {
   //==========================================================================//
   @BeforeClass
   public static void setUpBeforeClass()
-      throws Exception {
+    throws Exception {
 
   }
 
   @AfterClass
   public static void tearDownAfterClass()
-      throws Exception {
+    throws Exception {
 
   }
   //==========================================================================//
@@ -43,26 +35,6 @@ public class DTNHostTest extends TestCase {
   //==========================================================================//
   // Tests
   //==========================================================================//
-  /**
-   * Tests the case where the DTNHost has no interfaces configured.
-   *
-   * @throws Exception
-   */
-  @Test
-  public void testNoInterfaces()
-  throws Exception {
-    final DTNHost host = new DTNHost(
-            new ArrayList<MessageListener>(),
-            new ArrayList<MovementListener>(),
-            "",
-            new ArrayList<NetworkInterface>(),
-            null,
-            makeMovementModel(),
-            makeMessageRouter());
-
-    // Tests
-    assertFalse("Radio reported as active.", host.isRadioActive());
-  }
 
   private static MovementModel makeMovementModel() {
     return new MovementModel() {
@@ -85,6 +57,27 @@ public class DTNHostTest extends TestCase {
 
   private static MessageRouter makeMessageRouter() {
     return new PassiveRouter(new Settings());
+  }
+
+  /**
+   * Tests the case where the DTNHost has no interfaces configured.
+   *
+   * @throws Exception
+   */
+  @Test
+  public void testNoInterfaces()
+    throws Exception {
+    final DTNHost host = new DTNHost(
+      new ArrayList<MessageListener>(),
+      new ArrayList<MovementListener>(),
+      "",
+      new ArrayList<NetworkInterface>(),
+      null,
+      makeMovementModel(),
+      makeMessageRouter());
+
+    // Tests
+    assertFalse("Radio reported as active.", host.isRadioActive());
   }
   //==========================================================================//
 
