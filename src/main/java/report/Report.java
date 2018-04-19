@@ -8,6 +8,8 @@ import core.Settings;
 import core.SimClock;
 import core.SimError;
 import core.SimScenario;
+import core.event.Publisher;
+import core.event.Subscriber;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -22,7 +24,7 @@ import java.util.*;
  * the reports implement warm up feature ({@link #WARMUP_S}) but the
  * implementations are always report specific.
  */
-public abstract class Report {
+public abstract class Report implements Subscriber {
   /**
    * Name space of the settings that are common to all reports ({@value}).
    */
@@ -448,6 +450,24 @@ public abstract class Report {
     }
     E_X = sum / values.size();
     return format(sum2 / values.size() - (E_X * E_X));
+  }
+
+  /*
+  This method is here to avoid implementation of the method in subclasses that don't use the EventManager.
+  It should be changed
+   */
+  @Override
+  public String topic() {
+    return "general";
+  }
+
+  /*
+  This method is here to avoid implementation of the method in subclasses that don't use the EventManager.
+  It should be changed
+   */
+  @Override
+  public void onEvent(Publisher publisher, Object event) {
+
   }
 
 }

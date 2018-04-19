@@ -4,6 +4,7 @@
  */
 package core;
 
+import core.event.EventManager;
 import movement.MovementModel;
 import movement.Path;
 import routing.MessageRouter;
@@ -14,17 +15,20 @@ import java.util.Collection;
 import java.util.List;
 
 import static core.Constants.DEBUG;
+import core.event.Publisher;
 
 /**
  * A DTN capable host.
  */
-public class DTNHost implements Comparable<DTNHost> {
+public class DTNHost implements Comparable<DTNHost>, Publisher {
   private static int nextAddress = 0;
 
   static {
     DTNSim.registerForReset(DTNHost.class.getCanonicalName());
     reset();
   }
+
+  public static String HOST_CREATED_TOPIC = "host/created";
 
   private int address;
   private Coord location;  // where is the host
@@ -39,6 +43,16 @@ public class DTNHost implements Comparable<DTNHost> {
   private List<MovementListener> movListeners;
   private List<NetworkInterface> net;
   private ModuleCommunicationBus comBus;
+
+  public static DTNHost create(List<MessageListener> msgLs,
+  List<MovementListener> movLs,
+  String groupId, List<NetworkInterface> interf,
+  ModuleCommunicationBus comBus,
+  MovementModel mmProto, MessageRouter mRouterProto) {
+    DTNHost host = new DTNHost(msgLs, movLs, groupId, interf, comBus, mmProto, mRouterProto);
+    EventManager.instance().publish(null, HOST_CREATED_TOPIC, host);
+    return host;
+  }
 
   /**
    * Creates a new DTNHost.

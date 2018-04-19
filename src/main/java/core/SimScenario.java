@@ -4,6 +4,7 @@
  */
 package core;
 
+import core.event.EventManager;
 import input.EventQueue;
 import input.EventQueueHandler;
 import movement.MapBasedMovement;
@@ -237,6 +238,7 @@ public class SimScenario implements Serializable {
     this.world = new World(hosts, worldSizeX, worldSizeY, updateInterval,
       updateListeners, simulateConnections,
       eqHandler.getEventQueues());
+
   }
 
   public static void reset() {
@@ -487,7 +489,7 @@ public class SimScenario implements Serializable {
 
         // prototypes are given to new DTNHost which replicates
         // new instances of movement model and message router
-        DTNHost host = new DTNHost(this.messageListeners,
+        DTNHost host = DTNHost.create(this.messageListeners,
           this.movementListeners, gid, interfaces, comBus,
           mmProto, mRouterProto);
         hosts.add(host);

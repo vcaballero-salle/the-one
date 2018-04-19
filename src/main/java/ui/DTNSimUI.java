@@ -5,6 +5,8 @@
 package ui;
 
 import core.*;
+import core.event.EventManager;
+import core.event.Subscriber;
 import report.Report;
 
 import java.util.Vector;
@@ -116,6 +118,9 @@ public abstract class DTNSimUI {
 
       this.world = this.scen.getWorld();
       world.warmupMovementModel(warmupTime);
+
+      EventManager.instance().start();
+
     } catch (SettingsError se) {
       System.err.println("Can't start: error in configuration file(s)");
       System.err.println(se.getMessage());
@@ -142,6 +147,9 @@ public abstract class DTNSimUI {
    * @param r Report to add
    */
   protected void addReport(Report r) {
+
+    EventManager.instance().subscribe(r, r.topic());
+
     if (r instanceof MessageListener) {
       scen.addMessageListener((MessageListener) r);
     }
