@@ -40,7 +40,6 @@ public class EventManager {
 
   public void publish(Publisher publisher, String topic, Object message) {
     if (!isStarted) {
-      System.out.println("Message at topic: " + topic);
       eventQueue.add(new Tuple<>(topic, message));
     } else {
       publishEventToSubscribers(publisher, topic, message);
@@ -51,7 +50,6 @@ public class EventManager {
   public void start() {
 
     isStarted = true;
-    System.out.println("EventQueue size: " + eventQueue.size());
     eventQueue.forEach(e -> publishEventToSubscribers(null, e.getKey(), e.getValue()));
     eventQueue = null;
 

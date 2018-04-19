@@ -14,7 +14,6 @@ public class NodeAddressToNameReport extends Report {
   public NodeAddressToNameReport()
   {
     super();
-    System.out.println("Report created");
     loggedNodes = new HashSet<>();
   }
 
