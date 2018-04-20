@@ -25,7 +25,6 @@ public class NodeAddressToNameReport extends Report {
   @Override
   public void onEvent(Publisher publisher, Object event) {
     DTNHost host = (DTNHost) event;
-    System.out.println("Message received at topic: " + topic());
     write(host.getAddress() + ", " + host.toString());
   }
 
